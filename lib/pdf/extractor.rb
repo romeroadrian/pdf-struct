@@ -37,13 +37,14 @@ class PDF::Extractor::Element
 end
 
 class PDF::Extractor::Font
-	attr_reader   :id, :name, :size
+	attr_reader   :id, :name, :size, :color
 	attr_accessor :style
 
 	def initialize(params = {})
 		@id    = params[:id]
 		@size  = params[:size].to_f
 		@name  = params[:name]
+		@color = params[:color]
 		@style = :normal
 	end
 
@@ -83,7 +84,8 @@ class PDF::Extractor::Reader
 			@fonts << PDF::Extractor::Font.new(
 				:id => attributes['id'],
 				:size => attributes['size'].to_f + 2, # is this right?
-				:name => attributes['family']
+				:name => attributes['family'],
+				:color => attributes['color']
 			)
 		when 'text'
 			@in_text = true
